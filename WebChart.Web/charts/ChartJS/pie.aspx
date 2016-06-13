@@ -14,15 +14,42 @@
 
     <link href="../../Content/bootstrap.css" rel="stylesheet" />
 
+    <style type="text/css">
+        body{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.3em;
+        }
+
+        #tableStatistics td span{
+            color:white; 
+            background-color:black;
+        }
+
+        #rightPane
+        {
+            float:right; 
+
+            width: 50%; 
+            margin-top:20px;
+        }
+
+       #leftPane
+        {
+            float:left;
+            width: 50%; 
+        }
+
+    </style>
+
 </head>
 <body>
     <form id="form1" runat="server">
         <div style="width: 100%">
-            <div id="canvas-holder" style="width: 50%; float:left;">
+            <div id="leftPane">
                 <canvas id="chart-area" width="400" height="400" />
             </div>
-            <div class="container-fluid" style="width: 50%; float:right; margin-top:20px;">
-                <table class="table table-bordered table-responsive">
+            <div id="rightPane" class="container-fluid" >
+                <table id="tableStatistics" class="table table-bordered table-responsive">
                     <thead>
                         <tr>
                             <th>Exception Count</th>
@@ -31,7 +58,9 @@
                     </thead>
                     <tbody data-bind="foreach: chartData">
                         <tr>
-                            <td style="text-align:right;" data-bind="text: value"></td>
+                            <td style="text-align:right;" data-bind="style: { 'background-color': backColor }">
+                                <span data-bind="text: value + ' ( ' + percent() + '% )'" ></span>
+                            </td>
                             <td data-bind="text: label"></td>
                         </tr>
                     </tbody>
@@ -77,12 +106,19 @@
             };
 
 
-            function ChartData(value, label)
+            function ChartData(value, label, color, total)
             {
                 self = this;
 
                 self.value = value;
                 self.label = label;
+                self.backColor = color;
+                self.percent = ko.computed(function() {
+                        
+                        var percentage = (value * 100 / total).toFixed(2);
+
+                        return percentage;
+                    }, this);
 
             }
 
@@ -92,6 +128,7 @@
                 self = this;
 
                 self.chartData = ko.observableArray([]);
+
             }
 
 
@@ -109,12 +146,19 @@
                     config.data.datasets[0].data = data.Values;
                     config.data.datasets[0].backgroundColor = data.Colors;
                     config.data.labels = data.Labels;
+                    
+                    var total = 0;
+
+                    for (var i = 0; i < data.Values.length; i++)
+                    {
+                        total = total + data.Values[i];
+                    }
 
                     var chartData = new Array();
 
                     for (var i = 0; i < data.Values.length; i++)
                     {
-                        var d = new ChartData(data.Values[i], data.Labels[i]);
+                        var d = new ChartData(data.Values[i], data.Labels[i], data.Colors[i], total);
                         chartData.push(d);
                     }
                     
