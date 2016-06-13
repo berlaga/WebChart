@@ -70,6 +70,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -237,6 +239,23 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="ELMAH.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ELMAH.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="ELMAH.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ELMAH.edmx</DependentUpon>
+      <LastGenOutput>ELMAH.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ELMAH.edmx.diagram">
+      <DependentUpon>ELMAH.edmx</DependentUpon>
+    </Content>
+    <Content Include="ELMAH.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ELMAH.edmx</DependentUpon>
+      <LastGenOutput>ELMAH.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -276,7 +295,9 @@
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Bundle.config" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
@@ -407,6 +428,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ChartData.cs" />
     <Compile Include="charts\ChartJS\pie.aspx.cs">
       <DependentUpon>pie.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -421,6 +443,7 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -428,6 +451,27 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ELMAH.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ELMAH.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ELMAH.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ELMAH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ELMAH.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ELMAH.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ELMAH_Error.cs">
+      <DependentUpon>ELMAH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ELMAH_report_Result.cs">
+      <DependentUpon>ELMAH.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -459,6 +503,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
