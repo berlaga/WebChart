@@ -13,5 +13,11 @@ namespace WebChart.Web.charts.ChartJS
         {
 
         }
+
+
+        public string GetServiceRootUrl()
+        {
+            return HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + ResolveUrl("~/");
+        }
     }
 }

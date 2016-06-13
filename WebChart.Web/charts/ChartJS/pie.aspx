@@ -8,6 +8,7 @@
 
     <script src="../../Scripts/jquery-2.2.3.js"></script>
     <script src="../../Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="../../Scripts/knockout-3.4.0.js"></script>
     <script src="js/Chart.bundle.js"></script>
 </head>
 <body>
@@ -20,19 +21,9 @@
                 aaaa
             </div>
         </div>
-<%--        <button id="randomizeData">Randomize Data</button>
-        <button id="addDataset">Add Dataset</button>
-        <button id="removeDataset">Remove Dataset</button>--%>
+
         <script>
-            var randomScalingFactor = function () {
-                return Math.round(Math.random() * 100);
-            };
-            var randomColorFactor = function () {
-                return Math.round(Math.random() * 255);
-            };
-            var randomColor = function (opacity) {
-                return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
-            };
+ 
 
             var config = {
                 type: 'pie',
@@ -86,12 +77,10 @@
 
             $(function () {
 
-                $.getJSON("http://localhost:52684/api/chart/Get", function (data) {
+                var requestUrl = "<%= GetServiceRootUrl()%>api/chart/Get";
 
-                    //var items = [];
-                    //$.each(data, function (key, val) {
-                    //    items.push(val);
-                    //});
+
+                $.getJSON(requestUrl, function (data) {
 
                     config.data.datasets[0].data = data.Values;
                     config.data.datasets[0].backgroundColor = data.Colors;
@@ -108,35 +97,7 @@
 
             });
 
-            //window.onload = function () {
-            //    var ctx = document.getElementById("chart-area").getContext("2d");
-            //    window.myPie = new Chart(ctx, config);
-            //};
-
-            $('#randomizeData').click(function () {
-                $.each(config.data.datasets, function (i, piece) {
-                    $.each(piece.data, function (j, value) {
-                        config.data.datasets[i].data[j] = randomScalingFactor();
-                        config.data.datasets[i].backgroundColor[j] = randomColor(0.7);
-                    });
-                });
-                window.myPie.update();
-            });
-
-            $('#addDataset').click(function () {
-                var newDataset = {
-                    backgroundColor: [randomColor(0.7), randomColor(0.7), randomColor(0.7), randomColor(0.7), randomColor(0.7)],
-                    data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-                };
-
-                config.data.datasets.push(newDataset);
-                window.myPie.update();
-            });
-
-            $('#removeDataset').click(function () {
-                config.data.datasets.splice(0, 1);
-                window.myPie.update();
-            });
+   
         </script>
     </form>
 </body>
