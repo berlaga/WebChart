@@ -11,7 +11,7 @@ namespace WebChart.Web.Controllers
     {
         // GET: api/Test
         [HttpGet]
-        public ChartData Get()
+        public ChartData Get(int top, int back)
         {
 
             ChartData d = new ChartData();
@@ -21,7 +21,7 @@ namespace WebChart.Web.Controllers
 
             using (var context = new ELMAH_Entities())
             {
-                var results = context.ELMAH_report(0,0);
+                var results = context.ELMAH_report(top, back);
                 var random = new Random();
 
                 foreach (var item in results)
