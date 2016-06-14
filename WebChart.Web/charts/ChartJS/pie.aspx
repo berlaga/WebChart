@@ -58,11 +58,11 @@
                     <div class="col-md-5">
                         <label for="paramDate">"Days back" parameter</label>
                         <select data-bind="value: paramBack" id="paramDate">
-                            <option selected="selected" value="1">1</option>
-                            <option value="2">3</option>
-                            <option value="3">week</option>
-                            <option value="4">month</option>
-                            <option value="0">year</option>
+                            <option selected="selected" value="1">24 hours</option>
+                            <option value="2">3 days</option>
+                            <option value="3">1 week</option>
+                            <option value="4">1 month</option>
+                            <option value="0">1 year</option>
                         </select>
                     </div>
                     <div class="col-md-1">
@@ -163,36 +163,17 @@
 
                 requestUrl = "<%= GetServiceRootUrl()%>api/chart/Get?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
 
-                $.getJSON(requestUrl, function (data) {
-
-                    config.data.datasets[0].data = data.Values;
-                    config.data.datasets[0].backgroundColor = data.Colors;
-                    config.data.labels = data.Labels;
-
-                    var total = 0;
-
-                    for (var i = 0; i < data.Values.length; i++) {
-                        total = total + data.Values[i];
-                    }
-
-                    var chartData = new Array();
-
-                    for (var i = 0; i < data.Values.length; i++) {
-                        var d = new ChartData(data.Values[i], data.Labels[i], data.Colors[i], total);
-                        chartData.push(d);
-                    }
-
-                    chartModel.chartData(chartData);
-
-                    var ctx = document.getElementById("chart-area").getContext("2d");
-                    pieChart = new Chart(ctx, config);
-
-                });
+                //get server data
+                $.getJSON(requestUrl, JsonCallback)
+                 .fail(function () {
+                     console.log("error");
+                 });
 
                 $("#btnApply").click(function () {
 
                     requestUrl = "<%= GetServiceRootUrl()%>api/chart/Get?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
 
+                    //get server data
                     $.getJSON(requestUrl, JsonCallback);
   
                 });
@@ -202,7 +183,7 @@
             });
 
 
-
+            //Json callback function
             function JsonCallback(data)
             {
                 config.data.datasets[0].data = data.Values;
@@ -225,7 +206,8 @@
 
                 chartModel.chartData(chartData);
 
-                pieChart.destroy();
+                if (pieChart != null)
+                    pieChart.destroy();
 
                 var ctx = document.getElementById("chart-area").getContext("2d");
                 pieChart = new Chart(ctx, config);
