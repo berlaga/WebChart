@@ -9,7 +9,7 @@ namespace WebChart.Web.Controllers
 {
     public class ChartController : ApiController
     {
-        // GET: api/Test
+        // GET: api/chart/get?top=5&back=1
         [HttpGet]
         public ChartData Get(int top, int back)
         {
@@ -38,10 +38,9 @@ namespace WebChart.Web.Controllers
                 return d;
             }
 
-            //return new int[] { 10,4,5,1,7,8 };
         }
 
-        // GET: api/Test
+        // GET: api/chart/GetChartData
         [HttpGet]
         public ChartData GetChartData()
         {
