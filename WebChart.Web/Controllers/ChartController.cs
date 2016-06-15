@@ -11,7 +11,7 @@ namespace WebChart.Web.Controllers
     {
         // GET: api/chart/get?top=5&back=1
         [HttpGet]
-        public ChartData Get(int top, int back)
+        public ChartData GetChartData(int top, int back)
         {
 
             ChartData d = new ChartData();
@@ -42,7 +42,7 @@ namespace WebChart.Web.Controllers
 
         // GET: api/chart/GetChartData
         [HttpGet]
-        public ChartData GetChartData()
+        public ChartData GetChartTestData()
         {
             ChartData data = new ChartData();
 

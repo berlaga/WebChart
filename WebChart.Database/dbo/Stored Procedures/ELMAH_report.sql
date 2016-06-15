@@ -1,7 +1,7 @@
 ﻿-- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
+-- Author:		Alexey Geller
+-- Create date: June 2016
+-- Description:	ELMAH statstistics report
 -- =============================================
 CREATE PROCEDURE [dbo].[ELMAH_report] 
 	@DistinctErrorTypes int = 6,

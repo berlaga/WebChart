@@ -161,7 +161,7 @@
                 chartModel = new ChartViewModel();
                 ko.applyBindings(chartModel, document.getElementById("rightPane"));
 
-                requestUrl = "<%= GetServiceRootUrl()%>api/chart/Get?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
+                requestUrl = "<%= GetServiceRootUrl()%>api/chart/GetChartData?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
 
                 //get server data
                 $.getJSON(requestUrl, JsonCallback)
@@ -171,7 +171,7 @@
 
                 $("#btnApply").click(function () {
 
-                    requestUrl = "<%= GetServiceRootUrl()%>api/chart/Get?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
+                    requestUrl = "<%= GetServiceRootUrl()%>api/chart/GetChartData?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
 
                     //get server data
                     $.getJSON(requestUrl, JsonCallback);
