@@ -78,7 +78,7 @@
                         </select>
                     </div>
                     <div class="col-md-1">
-                        <button id="btnApply" class="btn btn-primary" type="button">Apply</button>
+                        <button id="btnApply" title="Click to refresh chart" class="btn btn-primary" type="button">Apply</button>
                     </div>
                 </div>
 
@@ -104,10 +104,10 @@
                 </div>
 
                 <!-- ko stopBinding: true -->
-                <div id="latest-exceptions" class="row">
+                <div style="margin-top:20px;" id="latest-exceptions" class="row">
                     <div class="col-md-12">
-                        <h2>10 latest exceptions</h2>
-
+                        <h2 style="display:inline;">10 latest exceptions</h2>
+                        <span style="margin-left:5px; font-style:italic;" data-bind="text: '(Last updated: ' + moment().format('YYYY-MM-DD, hh:mm:ss a') + ')'"></span>
                         <table id="tableRecent" class="table table-bordered table-responsive table-striped table-condensed">
                             <thead>
                                 <tr>
@@ -119,9 +119,9 @@
                             <tbody data-bind="foreach: latestExceptions">
                                 <tr>
                                     <td >
-                                        <a data-bind="text: type, attr: { href: 'elmah.axd/detail?id=' + id}" href="#"></a>
+                                        <a data-bind="text: type, attr: { href: 'elmah.axd/detail?id=' + id, title: 'Click to see exception details'}" href="#"></a>
                                     </td>
-                                    <td data-bind="text: moment(date).format('YYYY-MM-DD, h:mm:ss a') "></td>
+                                    <td data-bind="text: moment(date).format('YYYY-MM-DD, hh:mm:ss a') "></td>
                                     <td data-bind="text: message.substring(0, 50) + '..'"></td>
 
                                 </tr>
@@ -281,7 +281,6 @@
 
             //Json callback function
             function JsonCallbackExceptions(data) {
-                //console.log(data);
 
                 for (var i = 0; i < data.length; i++) {
                     latestExceptionsViewModel.latestExceptions.push(new ExceptionData(data[i]));
