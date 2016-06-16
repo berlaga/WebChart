@@ -10,21 +10,17 @@ namespace WebChart.Web
         public List<int> Values { set; get; }
         public List<string> Labels { set; get; }
         public List<string> Colors { set; get; }
-
     }
 
-    public class ChartData1
+
+    public class ExceptionInfo
     {
-        public ChartAxisData Data { set; get; }
-        public List<string> Labels { set; get; }
-        public List<string> Colors { set; get; }
+        public string Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Message { get; set; }
+        public string Type { get; set; }
 
     }
 
-
-    public class ChartAxisData
-    {
-        public string Label { set; get; }
-        public List<int> Values { set; get; }
-    }
+     
 }

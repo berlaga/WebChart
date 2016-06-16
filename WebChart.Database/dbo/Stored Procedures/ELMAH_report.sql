@@ -1,7 +1,7 @@
 ﻿-- =============================================
--- Author:		Alexey Geller
--- Create date: June 2016
--- Description:	ELMAH statstistics report
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[ELMAH_report] 
 	@DistinctErrorTypes int = 6,
@@ -54,7 +54,7 @@ BEGIN
 
 	--print @sumValue
 
-	select @sumTotal - @sumValue as [Count], 'Other types' as [Type]
+	select isnull(@sumTotal,0) - isnull(@sumValue,0) as [Count], 'Other types' as [Type]
 	UNION
 	select * from
 	(

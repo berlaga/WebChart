@@ -13,7 +13,6 @@ namespace WebChart.Web.Controllers
         [HttpGet]
         public ChartData GetChartData(int top, int back)
         {
-
             ChartData d = new ChartData();
             List<int> values = new List<int>();
             List<string> labels = new List<string>();
@@ -21,8 +20,17 @@ namespace WebChart.Web.Controllers
 
             using (var context = new ELMAH_Entities())
             {
-                var results = context.ELMAH_report(top, back);
+                var results = context.ELMAH_report(top, back).ToList();
                 var random = new Random();
+
+                if (results.Count() == 1 && results[0].Count == 0)
+                {
+                    d.Labels = new List<string>();
+                    d.Values = new List<int>();
+                    d.Colors = new List<string>();
+
+                    return d;
+                }
 
                 foreach (var item in results)
                 {
@@ -38,6 +46,37 @@ namespace WebChart.Web.Controllers
                 return d;
             }
 
+        }
+
+
+        // GET: api/chart/get?top=5&back=1
+        [HttpGet]
+        public IEnumerable<ExceptionInfo> GetLatestExceptions(int top)
+        {
+            List<ExceptionInfo> list = new List<ExceptionInfo>();
+
+            using (var context = new ELMAH_Entities())
+            {
+                var result = (from x in context.ELMAH_Error
+                             orderby x.TimeUtc descending
+                             select new
+                             {
+                                 ExceptionDate = x.TimeUtc,
+                                 ExceptionId = x.ErrorId,
+                                 Description = x.Message,
+                                 Type = x.Type
+
+                             }).Take(top);
+
+                foreach(var item in result)
+                {
+                    ExceptionInfo info = new ExceptionInfo { Id = item.ExceptionId.ToString(), Date = item.ExceptionDate.ToLocalTime(), Message = item.Description, Type = item.Type };
+                    list.Add(info);
+                }
+
+
+                return list;
+            }
         }
 
         // GET: api/chart/GetChartData
