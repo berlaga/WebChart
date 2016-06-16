@@ -316,7 +316,18 @@
                     pieChart.destroy();
 
                 var ctx = document.getElementById("chart-area").getContext("2d");
-                pieChart = new Chart(ctx, config);
+                var canvas = document.getElementById("chart-area");
+
+                if (chartData.length == 0) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.font = "30px Tahoma";
+                    ctx.fillStyle = "red";
+                    ctx.textAlign = "center";
+                    ctx.fillText("No data available", canvas.width / 2, canvas.height / 2);
+                }
+                else
+                    pieChart = new Chart(ctx, config);
+
 
             }
 
