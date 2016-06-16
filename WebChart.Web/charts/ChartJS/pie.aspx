@@ -197,7 +197,7 @@
 
                 self.chartData = ko.observableArray([]);
                 self.paramTop = ko.observable(5);
-                self.paramBack = ko.observable(1);
+                self.paramBack = ko.observable(0);
 
                 self.isServerError = ko.observable(false);
                 self.serverErrorMessage = ko.observable("");

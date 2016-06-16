@@ -21,12 +21,13 @@ BEGIN
 		(
 			select count ([Type]) as [Count] from [dbo].[ELMAH_Error] as a
 			where 
-			((@DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR    --24h
+			(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR
 				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
 				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
 				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) 	--1 year
-			))     
+				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR    --1 year
+				@DaysBack = 0 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= dbo.getCurrentDateStartString())  -- today
+			)     
 			group by [Type]
 		) as a
 	)
@@ -40,12 +41,13 @@ BEGIN
 		(
 			select top(@DistinctErrorTypes) count ([Type]) as [Count], [Type] from [dbo].[ELMAH_Error] as a
 			where 
-			((@DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR    --24h
+			(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR
 				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
 				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
 				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) 	--1 year
-			))     
+				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR    --1 year
+				@DaysBack = 0 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= dbo.getCurrentDateStartString())  -- today
+			)     
 			group by [Type]
 			order by [Count] desc
 		) as a
@@ -59,12 +61,13 @@ BEGIN
 	(
  		select top(@DistinctErrorTypes) count ([Type]) as [Count], [Type] from [dbo].[ELMAH_Error] as a
 		where 
-			((@DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR    --24h
-				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
-				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
-				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) 	--1 year
-			))     
+		(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR
+			@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
+			@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
+			@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
+			@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR    --1 year
+			@DaysBack = 0 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= dbo.getCurrentDateStartString())  -- today
+		)     
 		group by [Type]
 		order by [Count] desc
 		) as z
