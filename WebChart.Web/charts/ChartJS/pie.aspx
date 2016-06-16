@@ -69,12 +69,12 @@
                     <div class="col-md-5">
                         <label for="paramDate">"Days back" parameter</label>
                         <select data-bind="value: paramBack" id="paramDate">
-                            <option selected="selected" value="11">Today</option>
-                            <option selected="selected" value="1">24 hours</option>
+                            <option selected="selected" value="0">Today</option>
+                            <option value="1">24 hours</option>
                             <option value="2">3 days</option>
                             <option value="3">1 week</option>
                             <option value="4">1 month</option>
-                            <option value="0">1 year</option>
+                            <option value="5">1 year</option>
                         </select>
                     </div>
                     <div class="col-md-1">

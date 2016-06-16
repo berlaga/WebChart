@@ -21,17 +21,17 @@ BEGIN
 		(
 			select count ([Type]) as [Count] from [dbo].[ELMAH_Error] as a
 			where 
-			((@DaysBack = 1 AND ([TimeUtc] >= DateAdd(hh, -24, GETDATE())) OR    --24h
-				@DaysBack = 2 AND ([TimeUtc] >= DateAdd(dd, -3, GETDATE())) OR	--3 days
-				@DaysBack = 3 AND ([TimeUtc] >= DateAdd(dd, -7, GETDATE())) OR	--1 week
-				@DaysBack = 4 AND ([TimeUtc] >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-				@DaysBack = 0 AND ([TimeUtc] >= DateAdd(mm, -12, GETDATE())) 	--1 year
+			((@DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR    --24h
+				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
+				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
+				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
+				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) 	--1 year
 			))     
 			group by [Type]
 		) as a
 	)
 
-	--print @sumTotal
+	print @sumTotal
 
 
 	select @sumValue = 
@@ -40,19 +40,18 @@ BEGIN
 		(
 			select top(@DistinctErrorTypes) count ([Type]) as [Count], [Type] from [dbo].[ELMAH_Error] as a
 			where 
-			((@DaysBack = 1 AND ([TimeUtc] >= DateAdd(hh, -24, GETDATE())) OR    --24h
-				@DaysBack = 2 AND ([TimeUtc] >= DateAdd(dd, -3, GETDATE())) OR	--3 days
-				@DaysBack = 3 AND ([TimeUtc] >= DateAdd(dd, -7, GETDATE())) OR	--1 week
-				@DaysBack = 4 AND ([TimeUtc] >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-				@DaysBack = 0 AND ([TimeUtc] >= DateAdd(mm, -12, GETDATE())) 	--1 year
-
+			((@DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR    --24h
+				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
+				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
+				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
+				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) 	--1 year
 			))     
 			group by [Type]
 			order by [Count] desc
 		) as a
 	)
 
-	--print @sumValue
+	print @sumValue
 
 	select isnull(@sumTotal,0) - isnull(@sumValue,0) as [Count], 'Other types' as [Type]
 	UNION
@@ -60,12 +59,12 @@ BEGIN
 	(
  		select top(@DistinctErrorTypes) count ([Type]) as [Count], [Type] from [dbo].[ELMAH_Error] as a
 		where 
-		((@DaysBack = 1 AND ([TimeUtc] >= DateAdd(hh, -24, GETDATE())) OR    --24h
-			@DaysBack = 2 AND ([TimeUtc] >= DateAdd(dd, -3, GETDATE())) OR	--3 days
-			@DaysBack = 3 AND ([TimeUtc] >= DateAdd(dd, -7, GETDATE())) OR	--1 week
-			@DaysBack = 4 AND ([TimeUtc] >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-			@DaysBack = 0 AND ([TimeUtc] >= DateAdd(mm, -12, GETDATE())) 	--1 year
-		))     
+			((@DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR    --24h
+				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
+				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
+				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
+				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) 	--1 year
+			))     
 		group by [Type]
 		order by [Count] desc
 		) as z
