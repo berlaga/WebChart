@@ -72,7 +72,7 @@
         <div id="container" style="width: 100%">
 
             <div class="alert alert-danger" style="display:none;" id="error-message" data-bind="visible: isServerError, text: serverErrorMessage">error</div>
-            <div data-bind="visible: !isServerError()" id="leftPane">
+            <div style="text-align:center;" data-bind="visible: !isServerError()" id="leftPane">
                 <canvas id="chart-area" width="400" height="400" />
             </div>
             <div data-bind="visible: !isServerError()" id="rightPane" class="container-fluid">
@@ -252,20 +252,7 @@
 
             $(function () {
 
-                $(document).ajaxStart(function () {
-                    var width = $(this).width();
-                    var height = $(this).height();
-
-                    $("#report-loading").css({
-                        top: ((height / 2) - 25),
-                        left: ((width / 2) - 50)
-                    }).fadeIn(200);    // fast fade in of 200 mili-seconds
-                }).ajaxStop(function () {
-                    $("#report-loading", this).fadeOut(1000);    // slow fade out of 1 second
-                });
-
-
-                //allow multiple model binding
+               //allow multiple model binding
                 ko.bindingHandlers.stopBinding = {
                     init: function () {
                         return { controlsDescendantBindings: true };
@@ -358,7 +345,6 @@
                 var canvas = document.getElementById("chart-area");
 
                 if (chartData.length == 0) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.font = "30px Tahoma";
                     ctx.fillStyle = "red";
                     ctx.textAlign = "center";
