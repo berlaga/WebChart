@@ -44,44 +44,41 @@
             width: 50%;
         }
 
-        #error-message
-        {
-            margin-top: 20px; 
-            margin-left: 40px; 
+        #error-message {
+            margin-top: 20px;
+            margin-left: 40px;
             width: 50%;
         }
 
-        #filterRow
-        {
-            margin-bottom: 10px; 
+        #filterRow {
+            margin-bottom: 10px;
             margin-top: 20px;
         }
 
-        #latest-exceptions
-        {
-            margin-top:20px;
+        #latest-exceptions {
+            margin-top: 20px;
         }
 
-        #lastUpdated
-        {
-            margin-left:5px; 
-            font-style:italic;
+        #lastUpdated {
+            margin-left: 5px;
+            font-style: italic;
         }
-
     </style>
 
 </head>
 <body>
     <form id="form1" runat="server">
+
         <div id="container" style="width: 100%">
-            <div class="alert alert-danger" id="error-message" data-bind="visible: isServerError, text: serverErrorMessage">error</div>
+
+            <div class="alert alert-danger" style="display:none;" id="error-message" data-bind="visible: isServerError, text: serverErrorMessage">error</div>
             <div data-bind="visible: !isServerError()" id="leftPane">
                 <canvas id="chart-area" width="400" height="400" />
             </div>
             <div data-bind="visible: !isServerError()" id="rightPane" class="container-fluid">
                 <h1>ELMAH exceptions statatistics for XXXX</h1>
 
-                <div id="filterRow" class="row" >
+                <div id="filterRow" class="row">
                     <div class="col-md-4">
                         <label for="paramTop">"Top" parameter</label>
                         <select data-bind="value: paramTop" id="paramTop">
@@ -131,7 +128,7 @@
                 <!-- ko stopBinding: true -->
                 <div id="latest-exceptions" class="row">
                     <div class="col-md-12">
-                        <h2 style="display:inline;">10 latest exceptions</h2>
+                        <h2 style="display: inline;">10 latest exceptions</h2>
                         <span id="lastUpdated" data-bind="text: '(Last updated: ' + moment().format('YYYY-MM-DD, hh:mm:ss a') + ')'"></span>
                         <table id="tableRecent" class="table table-bordered table-responsive table-striped table-condensed">
                             <thead>
@@ -143,8 +140,8 @@
                             </thead>
                             <tbody data-bind="foreach: latestExceptions">
                                 <tr>
-                                    <td >
-                                        <a data-bind="text: type, attr: { href: 'elmah.axd/detail?id=' + id, title: 'Click to see exception details'}" href="#"></a>
+                                    <td>
+                                        <a data-bind="text: type, attr: { href: 'elmah.axd/detail?id=' + id, title: 'Click to see exception details' }" href="#"></a>
                                     </td>
                                     <td data-bind="text: moment(date).format('YYYY-MM-DD, hh:mm:ss a') "></td>
                                     <td data-bind="text: message.substring(0, 50) + '..'"></td>
@@ -156,6 +153,8 @@
                 </div>
                 <!-- /ko -->
             </div>
+
+
         </div>
 
         <script type="text/javascript">
@@ -248,15 +247,32 @@
             }
 
 
+
+
+
             $(function () {
 
+                $(document).ajaxStart(function () {
+                    var width = $(this).width();
+                    var height = $(this).height();
+
+                    $("#report-loading").css({
+                        top: ((height / 2) - 25),
+                        left: ((width / 2) - 50)
+                    }).fadeIn(200);    // fast fade in of 200 mili-seconds
+                }).ajaxStop(function () {
+                    $("#report-loading", this).fadeOut(1000);    // slow fade out of 1 second
+                });
+
+
+                //allow multiple model binding
                 ko.bindingHandlers.stopBinding = {
                     init: function () {
                         return { controlsDescendantBindings: true };
                     }
                 };
-
                 ko.virtualElements.allowedBindings.stopBinding = true;
+                //allow multiple model binding
 
                 //init knockout models
                 chartModel = new ChartViewModel();
@@ -298,8 +314,6 @@
                         });
 
                 });
-
-
 
             });
 
