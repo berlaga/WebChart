@@ -43,20 +43,45 @@
             float: left;
             width: 50%;
         }
+
+        #error-message
+        {
+            margin-top: 20px; 
+            margin-left: 40px; 
+            width: 50%;
+        }
+
+        #filterRow
+        {
+            margin-bottom: 10px; 
+            margin-top: 20px;
+        }
+
+        #latest-exceptions
+        {
+            margin-top:20px;
+        }
+
+        #lastUpdated
+        {
+            margin-left:5px; 
+            font-style:italic;
+        }
+
     </style>
 
 </head>
 <body>
     <form id="form1" runat="server">
         <div id="container" style="width: 100%">
-            <div style="margin-top: 20px; margin-left: 40px; width: 50%;" class="alert alert-danger" id="error-message" data-bind="visible: isServerError, text: serverErrorMessage">error</div>
+            <div class="alert alert-danger" id="error-message" data-bind="visible: isServerError, text: serverErrorMessage">error</div>
             <div data-bind="visible: !isServerError()" id="leftPane">
                 <canvas id="chart-area" width="400" height="400" />
             </div>
             <div data-bind="visible: !isServerError()" id="rightPane" class="container-fluid">
                 <h1>ELMAH exceptions statatistics for XXXX</h1>
 
-                <div class="row" style="margin-bottom: 10px; margin-top: 20px;">
+                <div id="filterRow" class="row" >
                     <div class="col-md-4">
                         <label for="paramTop">"Top" parameter</label>
                         <select data-bind="value: paramTop" id="paramTop">
@@ -104,10 +129,10 @@
                 </div>
 
                 <!-- ko stopBinding: true -->
-                <div style="margin-top:20px;" id="latest-exceptions" class="row">
+                <div id="latest-exceptions" class="row">
                     <div class="col-md-12">
                         <h2 style="display:inline;">10 latest exceptions</h2>
-                        <span style="margin-left:5px; font-style:italic;" data-bind="text: '(Last updated: ' + moment().format('YYYY-MM-DD, hh:mm:ss a') + ')'"></span>
+                        <span id="lastUpdated" data-bind="text: '(Last updated: ' + moment().format('YYYY-MM-DD, hh:mm:ss a') + ')'"></span>
                         <table id="tableRecent" class="table table-bordered table-responsive table-striped table-condensed">
                             <thead>
                                 <tr>
