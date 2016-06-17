@@ -102,6 +102,7 @@
         <ComplexType Name="ELMAH_report_Result">
           <Property Type="Int32" Name="Count" Nullable="true" />
           <Property Type="String" Name="Type" Nullable="false" MaxLength="100" />
+          <Property Type="Guid" Name="Id" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -134,6 +135,7 @@
               <ComplexTypeMapping TypeName="ELMAH_Model.ELMAH_report_Result">
                 <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

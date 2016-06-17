@@ -17,6 +17,7 @@ namespace WebChart.Web.Controllers
             List<int> values = new List<int>();
             List<string> labels = new List<string>();
             List<string> colors = new List<string>();
+            List<string> ids = new List<string>();
 
             using (var context = new ELMAH_Entities())
             {
@@ -28,6 +29,7 @@ namespace WebChart.Web.Controllers
                     d.Labels = new List<string>();
                     d.Values = new List<int>();
                     d.Colors = new List<string>();
+                    d.Ids = new List<string>();
 
                     return d;
                 }
@@ -37,11 +39,13 @@ namespace WebChart.Web.Controllers
                     values.Add(item.Count.Value);
                     labels.Add(item.Type);
                     colors.Add(String.Format("#{0:X6}", random.Next(0x1000000)));
+                    ids.Add(item.Id.Value.ToString());
                 }
 
                 d.Labels = labels;
                 d.Values = values;
                 d.Colors = colors;
+                d.Ids = ids;
 
                 return d;
             }

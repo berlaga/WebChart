@@ -104,7 +104,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div data-bind="visible: chartData().length > 0" class="row">
                     <div class="col-md-12">
                         <table id="tableStatistics" class="table table-bordered table-responsive table-striped ">
                             <thead>
@@ -118,7 +118,10 @@
                                     <td style="text-align: right;" data-bind="style: { 'background-color': backColor }">
                                         <span data-bind="text: value + ' ( ' + percent() + '% )'"></span>
                                     </td>
-                                    <td data-bind="text: label"></td>
+                                    <td>
+                                        <a data-bind="text: label, attr: { href: id == '00000000-0000-0000-0000-000000000000' ? '#' : 'elmah.axd/detail?id=' + id }" 
+                                            href="#" title="Click to see exception details"></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -200,12 +203,13 @@
             };
 
 
-            function ChartData(value, label, color, total) {
+            function ChartData(value, label, color, id, total) {
                 self = this;
 
                 self.value = value;
                 self.label = label;
                 self.backColor = color;
+                self.id = id;
                 self.percent = ko.computed(function () {
 
                     var percentage = (value * 100 / total).toFixed(2);
@@ -331,7 +335,7 @@
                 var chartData = new Array();
 
                 for (var i = 0; i < data.Values.length; i++) {
-                    var d = new ChartData(data.Values[i], data.Labels[i], data.Colors[i], total);
+                    var d = new ChartData(data.Values[i], data.Labels[i], data.Colors[i], data.Ids[i], total);
                     chartData.push(d);
                 }
 

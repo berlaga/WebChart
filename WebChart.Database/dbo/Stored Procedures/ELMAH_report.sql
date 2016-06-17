@@ -1,7 +1,7 @@
 ﻿-- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
+-- Author:		Alexey Geller
+-- Create date: June 2016
+-- Description:	ELMAH table statistics
 -- =============================================
 CREATE PROCEDURE [dbo].[ELMAH_report] 
 	@DistinctErrorTypes int = 6,
@@ -55,11 +55,18 @@ BEGIN
 
 	print @sumValue
 
-	select isnull(@sumTotal,0) - isnull(@sumValue,0) as [Count], 'Other types' as [Type]
+	select isnull(@sumTotal,0) - isnull(@sumValue,0) as [Count], 'Other types' as [Type], '00000000-0000-0000-0000-000000000000' as [Id]
 	UNION
 	select * from
 	(
- 		select top(@DistinctErrorTypes) count ([Type]) as [Count], [Type] from [dbo].[ELMAH_Error] as a
+ 		select top(@DistinctErrorTypes) count (a.[Type]) as [Count], a.[Type],
+		(
+			select top(1) b.ErrorId from [dbo].[ELMAH_Error] as b
+			where b.[Type] = a.[Type]
+			order by b.TimeUtc desc
+		
+		) as [Id]		 
+		from [dbo].[ELMAH_Error] as a
 		where 
 		(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR
 			@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days

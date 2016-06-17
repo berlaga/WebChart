@@ -10,6 +10,8 @@ namespace WebChart.Web
         public List<int> Values { set; get; }
         public List<string> Labels { set; get; }
         public List<string> Colors { set; get; }
+        public List<string> Ids { set; get; }
+
     }
 
 

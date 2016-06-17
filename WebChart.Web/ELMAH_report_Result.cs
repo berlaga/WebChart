@@ -15,5 +15,6 @@ namespace WebChart.Web
     {
         public Nullable<int> Count { get; set; }
         public string Type { get; set; }
+        public Nullable<System.Guid> Id { get; set; }
     }
 }
