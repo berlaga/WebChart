@@ -21,11 +21,11 @@ BEGIN
 		(
 			select count ([Type]) as [Count] from [dbo].[ELMAH_Error] as a
 			where 
-			(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR
+			(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR	--24 hours
 				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
 				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
 				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR    --1 year
+				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR   --1 year
 				@DaysBack = 0 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= dbo.getCurrentDateStartString())  -- today
 			)     
 			group by [Type]
@@ -41,11 +41,11 @@ BEGIN
 		(
 			select top(@DistinctErrorTypes) count ([Type]) as [Count], [Type] from [dbo].[ELMAH_Error] as a
 			where 
-			(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR
+			(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR	--24 hours
 				@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
 				@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
 				@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR    --1 year
+				@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR   --1 year
 				@DaysBack = 0 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= dbo.getCurrentDateStartString())  -- today
 			)     
 			group by [Type]
@@ -59,7 +59,7 @@ BEGIN
 	UNION
 	select * from
 	(
- 		select top(@DistinctErrorTypes) count (a.[Type]) as [Count], a.[Type],
+		select top(@DistinctErrorTypes) count (a.[Type]) as [Count], a.[Type],
 		(
 			select top(1) b.ErrorId from [dbo].[ELMAH_Error] as b
 			where b.[Type] = a.[Type]
@@ -68,11 +68,11 @@ BEGIN
 		) as [Id]		 
 		from [dbo].[ELMAH_Error] as a
 		where 
-		(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR
+		(   @DaysBack = 1 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(hh, -24, GETDATE())) OR	--24 hours
 			@DaysBack = 2 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -3, GETDATE())) OR	--3 days
 			@DaysBack = 3 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(dd, -7, GETDATE())) OR	--1 week
 			@DaysBack = 4 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -1, GETDATE())) OR	--1 month
-			@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR    --1 year
+			@DaysBack = 5 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= DateAdd(mm, -12, GETDATE())) OR   --1 year
 			@DaysBack = 0 AND (DATEADD(minute, DATEDIFF(minute,getutcdate(),getdate()), [TimeUtc]) >= dbo.getCurrentDateStartString())  -- today
 		)     
 		group by [Type]

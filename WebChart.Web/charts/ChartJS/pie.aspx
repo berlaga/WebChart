@@ -4,7 +4,7 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Chart JS</title>
+    <title>Chart JS: Pie</title>
 
     <script src="../../Scripts/jquery-2.2.3.js"></script>
     <script src="../../Scripts/jquery-ui-1.11.4.js"></script>

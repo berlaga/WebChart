@@ -187,6 +187,7 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
+    <Content Include="charts\ChartJS\bar.aspx" />
     <Content Include="charts\ChartJS\js\Chart.bundle.js" />
     <Content Include="charts\ChartJS\js\Chart.bundle.min.js" />
     <Content Include="charts\ChartJS\pie.aspx" />
@@ -434,6 +435,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ChartData.cs" />
+    <Compile Include="charts\ChartJS\bar.aspx.cs">
+      <DependentUpon>bar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="charts\ChartJS\bar.aspx.designer.cs">
+      <DependentUpon>bar.aspx</DependentUpon>
+    </Compile>
     <Compile Include="charts\ChartJS\pie.aspx.cs">
       <DependentUpon>pie.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
