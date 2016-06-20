@@ -9,7 +9,7 @@ namespace WebChart.Web.Controllers
 {
     public class ChartController : ApiController
     {
-        // GET: api/chart/get?top=5&back=1
+        // GET: api/chart/GetChartData?top=5&back=1
         [HttpGet]
         public ChartData GetChartData(int top, int back)
         {
@@ -53,7 +53,7 @@ namespace WebChart.Web.Controllers
         }
 
 
-        // GET: api/chart/get?top=5&back=1
+        // GET: api/chart/GetLatestExceptions?top=5
         [HttpGet]
         public IEnumerable<ExceptionInfo> GetLatestExceptions(int top)
         {
