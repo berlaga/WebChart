@@ -434,6 +434,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Calculations\ELMAH_PieChart.cs" />
     <Compile Include="ChartData.cs" />
     <Compile Include="charts\ChartJS\bar.aspx.cs">
       <DependentUpon>bar.aspx</DependentUpon>
@@ -456,7 +457,7 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ChartController.cs" />
+    <Compile Include="Controllers\PieChartController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -485,6 +486,7 @@
     <Compile Include="ELMAH_report_Result.cs">
       <DependentUpon>ELMAH.tt</DependentUpon>
     </Compile>
+    <Compile Include="BarData.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -7,9 +7,9 @@ using System.Web.Http;
 
 namespace WebChart.Web.Controllers
 {
-    public class ChartController : ApiController
+    public class PieChartController : ApiController
     {
-        // GET: api/chart/GetChartData?top=5&back=1
+        // GET: api/PieChart/GetChartData?top=5&back=1
         [HttpGet]
         public ChartData GetChartData(int top, int back)
         {
@@ -53,7 +53,7 @@ namespace WebChart.Web.Controllers
         }
 
 
-        // GET: api/chart/GetLatestExceptions?top=5
+        // GET: api/PieChart/GetLatestExceptions?top=5
         [HttpGet]
         public IEnumerable<ExceptionInfo> GetLatestExceptions(int top)
         {
@@ -83,7 +83,7 @@ namespace WebChart.Web.Controllers
             }
         }
 
-        // GET: api/chart/GetChartData
+        // GET: api/PieChart/GetChartTestData
         [HttpGet]
         public ChartData GetChartTestData()
         {

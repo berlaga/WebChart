@@ -273,7 +273,7 @@
                 ko.applyBindings(latestExceptionsViewModel, document.getElementById("latest-exceptions"));
                 //init knockout models
 
-                var requestUrlLatestExceptions = "<%= GetServiceRootUrl()%>api/chart/GetLatestExceptions?top=" + latestExceptionsViewModel.numberOfExceptions();
+                var requestUrlLatestExceptions = "<%= GetServiceRootUrl()%>api/PieChart/GetLatestExceptions?top=" + latestExceptionsViewModel.numberOfExceptions();
                 //get server data, initial load of chart
                 $.getJSON(requestUrlLatestExceptions, JsonCallbackExceptions)
                  .fail(function () {
@@ -281,7 +281,7 @@
                  });
 
 
-                requestUrlChart = "<%= GetServiceRootUrl()%>api/chart/GetChartData?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
+                requestUrlChart = "<%= GetServiceRootUrl()%>api/PieChart/GetChartData?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
 
                 //get server data, initial load of chart
                 $.getJSON(requestUrlChart, JsonCallbackChart)
@@ -294,7 +294,7 @@
                 //apply button handler
                 $("#btnApply").click(function () {
 
-                    requestUrlChart = "<%= GetServiceRootUrl()%>api/chart/GetChartData?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
+                    requestUrlChart = "<%= GetServiceRootUrl()%>api/PieChart/GetChartData?top=" + chartModel.paramTop() + "&back=" + chartModel.paramBack();
 
                     //get server data, refresh graph
                     $.getJSON(requestUrlChart, JsonCallbackChart)
