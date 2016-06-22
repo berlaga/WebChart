@@ -27,7 +27,7 @@ namespace WebChart.Web
 
         public int TotalPerMonth { get; set; }
 
-        public Tuple<string, int> ExceptionInfo { get; set; }
+        public List<Tuple<string, int>> ExceptionInfo { get; set; }
     }
 
 

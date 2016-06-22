@@ -23,12 +23,29 @@ namespace WebChart.Web.Calculations
                 DateTime endTime = DateHelper.GetDateMonthEnd(DateTime.Today.Year, month).ToUniversalTime();
 
 
-                int totalPerMonth = (from x in context.ELMAH_Error
-                                     where x.TimeUtc > beginTime
-                                        && x.TimeUtc < endTime
-                                     select x).Count();
+                //int totalPerMonth = (from x in context.ELMAH_Error
+                //                     where x.TimeUtc > beginTime
+                //                        && x.TimeUtc < endTime
+                //                     select x).Count();
 
-                barPerMonth.TotalPerMonth = totalPerMonth;
+                var groupResult = from x in context.ELMAH_Error
+                                  where x.TimeUtc > beginTime && x.TimeUtc < endTime
+                                  group x by x.Type into grp
+                                  select new
+                                  {
+                                      TypeName = grp.Key,
+                                      Count = grp.Count()
+                                  };
+
+                barPerMonth.ExceptionInfo = new List<Tuple<string, int>>();
+                     
+                foreach(var item in groupResult)
+                {
+                    Tuple<string, int> t = new Tuple<string, int>(item.TypeName, item.Count);
+                    barPerMonth.ExceptionInfo.Add(t);
+                }
+
+                barPerMonth.TotalPerMonth = groupResult.Any() ? groupResult.Sum(p => p.Count) : 0; //totalPerMonth;
 
             }
 
