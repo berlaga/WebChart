@@ -28,7 +28,7 @@
 
             self.requestData = function () {
 
-                var requestUrlLatestExceptions = "<%= GetServiceRootUrl()%>api/BarChart/GetData";
+                var requestUrlLatestExceptions = "<%= GetServiceRootUrl()%>api/BarChart/GetData?baseMonth=5&monthToShow=5";
                 //get server data, initial load of chart
                 $.getJSON(requestUrlLatestExceptions, function (data) {
                     //console.log(data);
@@ -186,7 +186,7 @@
                 <canvas id="canvas"></canvas>
             </div>
             <div style="float: right;width: 20%">
-                <button data-bind="click: processClick" style="margin-top:20px;" type="button" id="b1">Toggle bar / line graph</button>
+                <button class="btn btn-primary" data-bind="click: processClick" style="margin-top:20px;" type="button" id="b1">Toggle bar / line graph</button>
             </div>
         </div>
     </form>
