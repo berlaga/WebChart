@@ -10,72 +10,184 @@
     <script src="../../Scripts/jquery-2.2.3.js"></script>
     <script src="../../Scripts/jquery-ui-1.11.4.js"></script>
     <script src="../../Scripts/knockout-3.4.0.js"></script>
+    <script src="../../Scripts/knockout.mapping-latest.debug.js"></script>
     <script src="js/Chart.bundle.js"></script>
     <script src="../../Scripts/moment.js"></script>
 
     <link href="../../Content/bootstrap.css" rel="stylesheet" />
 
+
+
     <script type="text/javascript">
 
-        var randomScalingFactor = function () {
-            return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-        };
-        var randomColorFactor = function () {
-            return Math.round(Math.random() * 255);
-        };
+        var barChart = null;
+
+
+        function BarChartModel() {
+            self = this;
+
+            self.requestData = function () {
+
+                var requestUrlLatestExceptions = "<%= GetServiceRootUrl()%>api/BarChart/GetData";
+                //get server data, initial load of chart
+                $.getJSON(requestUrlLatestExceptions, function (data) {
+                    //console.log(data);
+
+                    var labels = new Array();
+
+                    var dataset = { backgroundColor: "#0080ff", data: [] };
+
+                    for (var i = 0; i < data.BarInfo.length; i++) {
+                        labels.push(data.BarInfo[i].MonthName)
+                        dataset.data.push(data.BarInfo[i].TotalPerMonth);
+                    }
+
+                    barChartData.datasets.push(dataset);
+                    barChartData.labels = labels;
+
+                    var ctx = document.getElementById("canvas").getContext("2d");
+                    barChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: {
+                            title: {
+                                display: true,
+                                text: "Total exceptions per month"
+                            },
+                            legend: {
+                                display: false,
+                            },
+                            tooltips: {
+                                mode: 'label'
+                            },
+                            responsive: true,
+                            scales: {
+                                xAxes: [{
+                                    stacked: false,
+                                }],
+                                yAxes: [{
+                                    stacked: true,
+                                }]
+                            }
+                        }
+                    });
+
+                })
+                 .fail(function () {
+                     console.log("Request " + requestUrlLatestExceptions + " failed");
+                 });
+
+            };
+
+            self.processClick = toggleButtonClick;
+
+  
+        }
 
         var barChartData = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                label: 'Dataset 1',
-                backgroundColor: "rgba(220,220,220,0.5)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-            }, {
-                label: 'Dataset 2',
-                backgroundColor: "rgba(151,187,205,0.5)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-            }, {
-                label: 'Dataset 3',
-                backgroundColor: "rgba(151,187,205,0.5)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-            }]
+            labels: [],
+            datasets: []
 
         };
 
 
-        window.onload = function () {
+        function toggleButtonClick()
+        {
             var ctx = document.getElementById("canvas").getContext("2d");
-            window.myBar = new Chart(ctx, {
-                type: 'bar',
-                data: barChartData,
-                options: {
-                    title: {
-                        display: true,
-                        text: "Chart.js Bar Chart - Stacked"
-                    },
-                    tooltips: {
-                        mode: 'label'
-                    },
-                    responsive: true,
-                    scales: {
-                        xAxes: [{
-                            stacked: true,
-                        }],
-                        yAxes: [{
-                            stacked: true
-                        }]
+
+
+            if (barChart.chart.config.type == "line") {
+                barChart.destroy();
+                barChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: barChartData,
+                    options: {
+                        title: {
+                            display: true,
+                            text: "Total exceptions per month"
+                        },
+                        legend: {
+                            display: false,
+                        },
+                        tooltips: {
+                            mode: 'label'
+                        },
+                        responsive: true,
+                        scales: {
+                            xAxes: [{
+                                stacked: false,
+                            }],
+                            yAxes: [{
+                                stacked: true,
+                            }]
+                        }
                     }
-                }
-            });
-        };
+                });
+            }
+            else {
+
+                barChart.destroy();
+
+                barChartData.datasets[0].fill = false;
+                barChartData.datasets[0].borderColor = "rgba(75,192,192,1)";
+                barChartData.datasets[0].pointBorderColor = "rgba(255,12,192,1)";
+                barChartData.datasets[0].pointBackgroundColor = "#fff";
+                barChartData.datasets[0].pointRadius = 5;
+
+                barChart = new Chart(ctx, {
+                    type: 'line',
+                    data: barChartData,
+                    options: {
+                        title: {
+                            display: true,
+                            text: "Total exceptions per month"
+                        },
+                        legend: {
+                            display: false,
+                        },
+                        tooltips: {
+                            mode: 'label'
+                        },
+                        responsive: true,
+                        scales: {
+                            xAxes: [{
+                                stacked: false,
+                            }],
+                            yAxes: [{
+                                stacked: true,
+                            }]
+                        }
+                    }
+                });
+
+            }
+        }
+
+
+
+
+        $(function () {
+
+            var viewModel = new BarChartModel();
+            ko.applyBindings(viewModel);
+
+            viewModel.requestData();
+
+
+        });
 
     </script>
 
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="width: 75%">
-            <canvas id="canvas"></canvas>
+        <div>
+            <div style="width: 75%; float: left;">
+                <canvas id="canvas"></canvas>
+            </div>
+            <div style="float: right;width: 20%">
+                <button data-bind="click: processClick" style="margin-top:20px;" type="button" id="b1">Toggle bar / line graph</button>
+            </div>
         </div>
     </form>
 </body>

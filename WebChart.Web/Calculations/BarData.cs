@@ -19,11 +19,14 @@ namespace WebChart.Web
 
     public class ELMAH_Monthly_Info
     {
-        public int Month { get; set; }
-
         public ELMAH_Monthly_Info() 
         {
         }
+        public int Month { get; set; }
+
+        public string MonthName { get; set; }
+
+        public string Color { get; set; }
 
         public int TotalPerMonth { get; set; }
 

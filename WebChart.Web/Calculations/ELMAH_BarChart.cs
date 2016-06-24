@@ -5,6 +5,9 @@ using System.Web;
 
 namespace WebChart.Web.Calculations
 {
+
+    enum Enum_Month {January = 1, February = 2, March = 3, April = 4, May = 5, June = 6, July = 7, August = 8, September = 9, October = 10, November = 11, December = 12   }
+
     public class ELMAH_BarChart
     {
         //ctor
@@ -13,8 +16,12 @@ namespace WebChart.Web.Calculations
 
         public ELMAH_Monthly_Info GetBarDataPerMonth(int month)
         {
+            var random = new Random();
+
             ELMAH_Monthly_Info barPerMonth = new ELMAH_Monthly_Info();
             barPerMonth.Month = month;
+            barPerMonth.MonthName = Enum.GetName(typeof(Enum_Month), month);
+            barPerMonth.Color = String.Format("#{0:X6}", random.Next(0x1000000));
 
             using(var context = new ELMAH_Entities())
             {
