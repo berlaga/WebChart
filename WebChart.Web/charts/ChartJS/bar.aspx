@@ -45,7 +45,7 @@
                     barChartData.datasets.push(dataset);
                     barChartData.labels = labels;
 
-                    var ctx = document.getElementById("canvas").getContext("2d");
+                    var ctx = document.getElementById("chart-area").getContext("2d");
                     barChart = new Chart(ctx, {
                         type: 'bar',
                         data: barChartData,
@@ -58,7 +58,8 @@
                                 display: false,
                             },
                             tooltips: {
-                                mode: 'label'
+                                mode: 'label',
+                              
                             },
                             responsive: true,
                             scales: {
@@ -72,14 +73,21 @@
                         }
                     });
 
+
+
                 })
                  .fail(function () {
                      console.log("Request " + requestUrlLatestExceptions + " failed");
                  });
 
+
+
             };
 
             self.processClick = toggleButtonClick;
+
+            self.onCanvasClick = OnCanvasClick;
+            self.onCanvasMouseMove = OnCanvasMouseMove;
 
   
         }
@@ -93,7 +101,7 @@
 
         function toggleButtonClick()
         {
-            var ctx = document.getElementById("canvas").getContext("2d");
+            var ctx = document.getElementById("chart-area").getContext("2d");
 
 
             if (barChart.chart.config.type == "line") {
@@ -163,7 +171,32 @@
             }
         }
 
+        function OnCanvasClick(data, event)
+        {
+            var activeBars = barChart.getElementsAtEvent(event);
+            if (activeBars.length == 0)
+                return;
+            // console.log(activeBars[0]);
+            // console.log(activeBars[0]._model.label);
+            if (activeBars[0]._model.label) {
+                alert(activeBars[0]._model.label);
+            }
 
+        }
+
+
+        function OnCanvasMouseMove(data, event)
+        {
+            var activeBars = barChart.getElementsAtEvent(event);
+            if (activeBars.length == 0) {
+                $("#chart-area").attr("style", "cursor:default;")
+            }
+            else
+                $("#chart-area").attr("style", "cursor:pointer;")
+
+            return true;
+
+        }
 
 
         $(function () {
@@ -183,7 +216,7 @@
     <form id="form1" runat="server">
         <div>
             <div style="width: 75%; float: left;">
-                <canvas id="canvas"></canvas>
+                <canvas data-bind="event: { click: onCanvasClick, mousemove: onCanvasMouseMove }" id="chart-area"></canvas>
             </div>
             <div style="float: right;width: 20%">
                 <button class="btn btn-primary" data-bind="click: processClick" style="margin-top:20px;" type="button" id="b1">Toggle bar / line graph</button>
